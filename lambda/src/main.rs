@@ -1,6 +1,8 @@
 use aws_lambda_events::event::eventbridge::EventBridgeEvent;
+use axum::Router;
+use axum::routing::get;
 use lambda_runtime::{run, service_fn, tracing, Error, LambdaEvent};
-
+use lambda_runtime::tracing::{error, info, warn, debug};
 
 /// This is the main body for the function.
 /// Write your code inside it.
@@ -10,6 +12,11 @@ use lambda_runtime::{run, service_fn, tracing, Error, LambdaEvent};
 async fn function_handler(event: LambdaEvent<EventBridgeEvent>) -> Result<(), Error> {
     // Extract some useful information from the request
 
+    debug!("debug");
+    info!("log");
+    warn!("worn");
+    error!("error");
+
     Ok(())
 }
 
@@ -17,5 +24,9 @@ async fn function_handler(event: LambdaEvent<EventBridgeEvent>) -> Result<(), Er
 async fn main() -> Result<(), Error> {
     tracing::init_default_subscriber();
 
-    run(service_fn(function_handler)).await
+
+    let app = Router::new()
+        .route("/", get(function_handler));
+
+    run(app).await
 }
