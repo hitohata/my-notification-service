@@ -3,7 +3,7 @@ import * as cdk from "aws-cdk-lib";
 import { RustFunction } from "cargo-lambda-cdk";
 import type { Construct } from "constructs";
 
-export class CdkStack extends cdk.Stack {
+export class MyNotification extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
 		super(scope, id, props);
 
