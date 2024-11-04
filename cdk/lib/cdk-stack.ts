@@ -1,16 +1,21 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as path from "node:path";
+import * as cdk from "aws-cdk-lib";
+import { RustFunction } from "cargo-lambda-cdk";
+import type { Construct } from "constructs";
+import * as apiGw from "aws-cdk-lib/aws-apigateway";
 
 export class CdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+		super(scope, id, props);
 
-    // The code that defines your stack goes here
+		const rustLambdaFunction = new RustFunction(this, "RustFunction", {
+			functionName: "RustFunctionForAxumTest",
+			manifestPath: path.join(__dirname, "../../lambda"),
+			runtime: "provided.al2023",
+		});
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'CdkQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
-  }
+		new apiGw.LambdaRestApi(this, "MyAPI", {
+			handler: rustLambdaFunction,
+		});
+	}
 }
