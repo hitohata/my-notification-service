@@ -11,7 +11,7 @@ export class CdkStack extends cdk.Stack {
 		const rustLambdaFunction = new RustFunction(this, "RustFunction", {
 			functionName: "RustFunctionForAxumTest",
 			manifestPath: path.join(__dirname, "../../lambda"),
-			runtime: "provided.al2",
+			runtime: "provided.al2023",
 		});
 
 		new apiGw.LambdaRestApi(this, "MyAPI", {

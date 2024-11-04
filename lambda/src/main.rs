@@ -1,15 +1,16 @@
-use aws_lambda_events::event::eventbridge::EventBridgeEvent;
-use axum::Router;
+use std::env::set_var;
+use axum::{Json, Router};
 use axum::routing::get;
-use lambda_runtime::{run, service_fn, tracing, Error, LambdaEvent};
-use lambda_runtime::tracing::{error, info, warn, debug};
+use lambda_http::{run, tracing, Error};
+use lambda_http::tracing::{error, info, warn, debug};
+use serde_json::{json, Value};
 
 /// This is the main body for the function.
 /// Write your code inside it.
 /// There are some code example in the following URLs:
 /// - https://github.com/awslabs/aws-lambda-rust-runtime/tree/main/examples
 /// - https://github.com/aws-samples/serverless-rust-demo/
-async fn function_handler(event: LambdaEvent<EventBridgeEvent>) -> Result<(), Error> {
+async fn function_handler() -> Json<Value> {
     // Extract some useful information from the request
 
     debug!("debug");
@@ -17,13 +18,15 @@ async fn function_handler(event: LambdaEvent<EventBridgeEvent>) -> Result<(), Er
     warn!("worn");
     error!("error");
 
-    Ok(())
+    Json(json!({"msg": "return"}))
 }
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    tracing::init_default_subscriber();
 
+    set_var("AWS_LAMBDA_HTTP_IGNORE_STAGE_IN_PATH", "true");
+
+    tracing::init_default_subscriber();
 
     let app = Router::new()
         .route("/", get(function_handler));
