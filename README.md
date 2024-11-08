@@ -21,7 +21,7 @@ The regions are specified by GitHub's environment variable.
 ```json
 {
   "application": "Notification",
-  "notificationType": "Notification",
+  "notificationType": "NOTIFICATION",
   "title": "title",
   "content": "content"
 }
