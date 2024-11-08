@@ -15,3 +15,23 @@ To share the policy among multiple region the lambda is used.
 When deploy the resource by the CDK, the lambda will run.
 The lambda get a parameter that is registered when deployment, then put parameters to multiple regions.
 The regions are specified by GitHub's environment variable.
+
+## Expected Schema
+
+```json
+{
+  "application": "Notification",
+  "notificationType": "Notification",
+  "title": "title",
+  "content": "content"
+}
+```
+
+| Attribute        | Description           |
+|:-----------------|:----------------------|
+| application      | Application name      |
+| notificationType | constant[^1]          | 
+| title            | title of notification | 
+| content          | content of message    |
+
+[^1]: `NOTIFICATION`, `ERROR`
