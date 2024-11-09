@@ -102,15 +102,15 @@ export class MyNotification extends cdk.Stack {
 			),
 		);
 
-		// const provider = new Provider(this, "custom-resource-provider", {
-		// 	onEventHandler: putParametersFunction,
-		// });
-		//
-		// new CustomResource(this, "custom-lambda-resource", {
-		// 	serviceToken: provider.serviceToken,
-		// 	properties: {
-		// 		uniqueId: Math.random(),
-		// 	},
-		// });
+		const provider = new Provider(this, "custom-resource-provider", {
+			onEventHandler: putParametersFunction,
+		});
+
+		new CustomResource(this, "custom-lambda-resource", {
+			serviceToken: provider.serviceToken,
+			properties: {
+				uniqueId: Math.random(),
+			},
+		});
 	}
 }
