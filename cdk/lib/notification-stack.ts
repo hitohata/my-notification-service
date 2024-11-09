@@ -84,7 +84,7 @@ export class MyNotification extends cdk.Stack {
 					effect: Effect.ALLOW,
 					actions: ["ssm:GetParameter"],
 					resources: [
-						`arn:aws:ssm:${this.region}:${this.account}:parameter/${PARAMETER_NAME}`,
+						`arn:aws:ssm:${this.region}:${this.account}:parameter${PARAMETER_NAME}`,
 					],
 				}),
 			),
@@ -96,7 +96,7 @@ export class MyNotification extends cdk.Stack {
 					actions: ["ssm:PutParameter"],
 					resources: targetRegions.map(
 						(region) =>
-							`arn:aws:ssm:${region}:${this.account}:parameter/${PARAMETER_NAME}`,
+							`arn:aws:ssm:${region}:${this.account}:parameter${PARAMETER_NAME}`,
 					),
 				}),
 			),

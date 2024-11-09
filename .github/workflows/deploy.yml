@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: deploy my notification service
+    runs-on: ubuntu-latest
+    environment: prod
+    defaults:
+      run:
+        working-directory: cdk
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+      AWS_ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+      AWS_DEFAULT_REGION: ${{ secrets.DEFAULT_REGION }}
+      TARGET_REGIONS: ${{ vars.TARGET_REGIONS }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: install dependencies
+        run: npm ci
+      - name: deploy
+        run: |
+          npm i -g aws-cdk
+          npm run cdk bootstrap
+          npm run cdk -- deploy "*" --require-approval never
