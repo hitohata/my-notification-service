@@ -25,6 +25,10 @@ async fn function_handler(_event: LambdaEvent<Value>) -> Result<(), Error> {
 
     let put_parameter_region = target_region_vector.iter().filter(|r| *r != &origin_region).to_owned().collect::<Vec<&String>>();
 
+    if put_parameter_region.len() < 2 {
+        return Ok(());
+    }
+
     let parameter_output = ssm_client()
         .await
         .get_parameter()
